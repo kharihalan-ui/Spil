@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Page</title>
+    <style>
+        /* Grundlæggende styling */
+        body { 
+            background-color: black; 
+            margin: 0; 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Layout der holder Ads og Spil på samme række */
+        .main-layout { 
+            display: flex; 
+            justify-content: center; 
+            align-items: flex-start; 
+            gap: 20px; 
+            padding: 40px 10px; 
+        }
+
+        /* Side-annoncer (Skyscrapers) med runde hjørner */
+        .ad-sidebar { 
+            width: 160px; 
+            min-height: 600px; 
+            background: #111; 
+            border-radius: 15px; 
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+
+        /* Container til spillet */
+        .game-container { text-align: center; }
+
+        /* Selve spillet med runde hjørner */
+        iframe { 
+            border: none; 
+            border-radius: 20px; 
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            max-width: 100%;
+        }
+
+        /* Fuld skærm knap */
+        .btn-fullscreen {
+            margin-top: 20px;
+            padding: 15px 30px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        .btn-fullscreen:hover { background: #1976D2; transform: scale(1.05); }
+
+        /* REKLAME OVERLAY (Bliver på samme fane) */
+        #ad-screen {
+            display: none; /* Skjult indtil klik */
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .ad-box {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 25px;
+            border: 1px solid #444;
+            text-align: center;
+        }
+
+        .close-text { color: #888; margin-bottom: 20px; cursor: pointer; text-decoration: underline; }
+
+        /* FULD SKÆRM STYLE (Sker på samme fane) */
+        .fullscreen-active iframe {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 9999; border-radius: 0;
+        }
+    </style>
+</head>
+<body>
+        <style>
+    /* Styling af tilbage-knappen */
+    .back-container {
+        padding: 20px;
+        animation: fadeInLeft 0.8s ease; /* Glider ind fra venstre */
+    }
+
+    .btn-back {
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        background: #1a1a1a;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 50px; /* Runde hjørner */
+        border: 1px solid #333;
+        font-weight: bold;
+        font-family: 'Segoe UI', sans-serif;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    /* Animation når man holder musen over */
+    .btn-back:hover {
+        background: #2196F3;
+        border-color: #2196F3;
+        transform: translateX(-5px); /* Bevæger sig lidt til venstre */
+        box-shadow: 0 0 15px rgba(33, 150, 243, 0.5);
+    }
+
+    /* Lille pil-ikon */
+    .btn-back::before {
+        content: '←';
+        margin-right: 8px;
+    }
+
+    /* Animation Keyframe */
+    @keyframes fadeInLeft {
+        from { opacity: 0; transform: translateX(-20px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+</style>
+
+<div class="back-container">
+    <a href="spil.html" class="btn-back">TILBAGE TIL SPIL</a>
+</div>
+
+
+    <!-- Reklame-skærm (Overlay) -->
+    <div id="ad-screen">
+        <div class="ad-box">
+            <div class="close-text" onclick="goFullscreenNow()">[ Luk reklame og spil videre ]</div>
+            <div style="width: 300px; height: 250px; background: #000;">
+                <!-- Din annoncekode til fuldskærm -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-2162070400144671"
+                     data-ad-slot="8300095792"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-layout">
+        <!-- Venstre Ad -->
+        <div class="ad-sidebar">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2162070400144671" data-ad-slot="9109555094" data-ad-format="vertical"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <!-- Spillet -->
+        <div class="game-container">
+            <iframe id="myGame" src="https://defly.io/indexFamobi.html?fg_domain=play.famobi.com&fg_aid=A1000-111&fg_uid=da7010c7-6f03-460c-891d-8737c569603f&fg_pid=e37ab3ce-88cd-4438-9b9c-a37df5d33736&fg_beat=794&original_ref=https%3A%2F%2Fplay.famobi.com%2Fdefly" width="800" height="500" scrolling="no"></iframe>
+            <br>
+            <button class="btn-fullscreen" onclick="triggerAd()">SPIL I FULD SKÆRM</button>
+        </div>
+
+        <!-- Højre Ad -->
+        <div class="ad-sidebar">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2162070400144671" data-ad-slot="9109555094" data-ad-format="vertical"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
+
+    <script async src="https://googlesyndication.com" crossorigin="anonymous"></script>
+
+    <script>
+        // 1. Vis reklamen på samme fane
+        function triggerAd() {
+            document.getElementById('ad-screen').style.display = 'flex';
+        }
+
+        // 2. Skift til fuld skærm (uden at åbne ny fane)
+        function goFullscreenNow() {
+            document.getElementById('ad-screen').style.display = 'none';
+            document.body.classList.add('fullscreen-active');
+            
+            // Tilføj en knap til at lukke fuld skærm igen
+            const exitBtn = document.createElement('button');
+            exitBtn.innerHTML = "LUK FULD SKÆRM";
+            exitBtn.style = "position:fixed; top:20px; right:20px; z-index:10001; padding:10px 20px; border-radius:20px; cursor:pointer; background:rgba(255,255,255,0.2); color:white; border:1px solid white;";
+            exitBtn.onclick = function() {
+                document.body.classList.remove('fullscreen-active');
+                this.remove();
+            };
+            document.body.appendChild(exitBtn);
+        }
+
+        // Gør det muligt at bruge ESC tasten til at gå ud
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "Escape") {
+                document.body.classList.remove('fullscreen-active');
+                const btn = document.querySelector('button[style*="fixed"]');
+                if(btn) btn.remove();
+            }
+        });
+    </script>
+
+</body>
+</html>
